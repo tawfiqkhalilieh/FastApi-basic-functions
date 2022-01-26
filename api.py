@@ -1,5 +1,8 @@
+from tkinter.messagebox import RETRY
 from fastapi import FastAPI,Path
 from pydantic import BaseModel
+
+from myapi import Student
 app = FastAPI()
 
 employees = {
@@ -47,5 +50,21 @@ def createStudent(id: int , employee : Employee):
 def UpdateEmployee(student_id: int , employee: UpdateEmployee):
     if id in employees:
         return {"Error": "This Student does not exist"}
-    employees[id]=employee
+    if employee.name != None:
+
+        employees[id].name=employee.name
+    if employee.major != None:
+        employees[id].major = employee.major
+    if employees[id].email != None:
+        employees[id].email = employee.email
+    if employees[id].salary != None:
+        employees[id].salary = employee.salary
+    
     return employees[id]
+
+@app.delete("/delete-employee/{id}")
+def delete_employee(id: int):
+    if id not in employees:
+        return {"Error": "Cant Find The Employee"}
+    del employees[id]
+    return {"Data": "Employee Deleted Succseesfuly"}
