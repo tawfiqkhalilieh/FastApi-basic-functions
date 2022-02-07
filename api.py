@@ -1,7 +1,5 @@
 from fastapi import FastAPI,Path
 from pydantic import BaseModel
-
-from myapi import Student
 app = FastAPI()
 
 employees = {
